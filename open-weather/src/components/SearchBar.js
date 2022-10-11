@@ -9,8 +9,13 @@ const SearchBar = () => {
     searchValue.current.focus();
   }, []);
 
-  function searchData() {
-    console.log("ndani");
+  // function searchData() {
+  //   console.log("ndani");
+  //   setSearchTerm(searchValue.current.value);
+  //   console.log(searchValue.current.value);
+  // }
+
+  function handleSearch() {
     setSearchTerm(searchValue.current.value);
     console.log(searchValue.current.value);
   }
@@ -20,11 +25,14 @@ const SearchBar = () => {
   }
 
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Search Country location here</label>
-          <input type="text" ref={searchValue} onChange={searchData} />
+    <section className="section search">
+      <form className="search-form" onSubmit={handleSubmit}>
+        <div className="form-control">
+          <label htmlFor="name"></label>
+          <input id="name" type="text" ref={searchValue} />
+          <button className="btn" onClick={handleSearch}>
+            Search
+          </button>
         </div>
       </form>
     </section>

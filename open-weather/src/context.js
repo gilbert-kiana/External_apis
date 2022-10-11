@@ -7,20 +7,32 @@ const UserContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("a");
-  const [chosenWeather, setChosenWeather] = useState();
+  const [chosenWeather, setChosenWeather] = useState({});
+  const [name, setName] = useState("");
+  const [temperature, setTemperature] = useState();
+  const [post, setPost] = useState(null);
 
   const fetchData = useCallback(async () => {
     //fetching from api with axios
     try {
-      const data = await axios.get(
-        `${base_url}${city}&appid=${process.env.REACT_APP_OPW_API}`
+      // const data = await axios
+      //   .get(`${base_url}${city}&appid=${process.env.REACT_APP_OPW_API}`)
+      //   .then((res) => {
+      //       setChosenWeather(res.data);
+      //     console.log(`hii ni console.log ${res.data}`);
+      //     console.log(chosenWeather);
+      //   });
+      const response = await fetch(
+        `${base_url}${searchTerm}&appid=${process.env.REACT_APP_OPW_API}`
       );
+      const data = await response.json();
+      console.log(data);
+      setName(data.name);
+      setTemperature(data.main.temp);
+
+      console.log(temperature);
+
       //hapa ndio imefika i think the issue ni niko na hiyo ovject nataka kuiset kama chosenweather
-      const weather = data.data.weather[0];
-      if (weather) {
-        const newWeather = { ...weather };
-      } else {
-      }
     } catch (error) {
       console.log(error);
     }
@@ -28,10 +40,20 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, [fetchData]);
 
   return (
-    <UserContext.Provider value={{ searchTerm, setSearchTerm }}>
+    <UserContext.Provider
+      value={{
+        searchTerm,
+        setSearchTerm,
+        chosenWeather,
+        setChosenWeather,
+        setName,
+        name,
+        temperature,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
