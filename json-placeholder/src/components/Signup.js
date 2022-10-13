@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [usermail, setUsermail] = useState("");
   const [users, setUsers] = useState([]);
+  const [sign, setSign] = useState(false);
 
   function handleChangeName(e) {
     setUsername(e.currentTarget.value);
@@ -12,8 +13,14 @@ const Signup = () => {
   function handleChangeEmail(e) {
     setUsermail(e.currentTarget.value);
   }
+
+  const deleteUser = () => {
+    setUsers([]);
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
+    signUp(username, usermail);
   }
 
   const signUp = async (name, email) => {
@@ -36,31 +43,48 @@ const Signup = () => {
       })
       .then((data) => {
         setUsers((users) => [...users, data]);
-        console.log(data);
+        console.log(users);
+        setSign(true);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  useEffect(() => {
-    signUp();
-  }, []);
-
   return (
     <div className="container">
-      <div className="container-title">Signup</div>
+      <div className="container-title">POST</div>
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-control">
-          Username:
-          <input name="username" onChange={handleChangeName} />
-          <br></br>Email
-          <input name="email" onChange={handleChangeEmail} />
+          <label className="label" aria-hidden="true">
+            Username:
+          </label>
+          <input
+            name="username"
+            className="input"
+            onChange={handleChangeName}
+          />
+          <br></br>
+          <label className="label">Email</label>
+          <input name="email" className="input" onChange={handleChangeEmail} />
         </div>
-        <button className="btn-submit">Signup</button>
+        <div className="btn-both">
+          <button className="btn-submit" onSubmit={handleSubmit}>
+            Post
+          </button>
+          <button className="btn-delete" onClick={deleteUser}>
+            Delete
+          </button>
+        </div>
       </form>
-      <div>users</div>
-      <div>
+
+      <label className="label">Users</label>
+      <div className="post-pending">
+        <br />
+        {sign ? <h4>POST SUCCESSFUL</h4> : <h4>POST PENDING</h4>}
+      </div>
+
+      <div className="users">
         {users.map((user) => {
           return user.name;
         })}
