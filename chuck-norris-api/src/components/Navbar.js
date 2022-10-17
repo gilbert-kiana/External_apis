@@ -16,8 +16,4 @@ const Navbar = () => {
   );
 };
 
-
-
-export default CategoriesBar;
-
 export default Navbar;

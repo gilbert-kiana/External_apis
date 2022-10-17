@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const url = "https://api.chucknorris.io/jokes/random";
-const categoryUrl = 
 
 const AppContext = React.createContext();
 
@@ -18,9 +17,10 @@ const AppProvider = ({ children }) => {
     setJokes(result.data.value);
   };
 
-  const fetchSpecificCategory =async () =>{
-      const category = await axios.get(categoryUrl);
-  }
+  // const fetchSpecificCategory = async () => {
+  //   const category = await axios.get(categoryUrl);
+  //   setCategories(category.data);
+  // };
 
   return <AppContext.Provider value={joke}>{children}</AppContext.Provider>;
 };
